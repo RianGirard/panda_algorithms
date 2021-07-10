@@ -45,26 +45,28 @@ function offset(arr, shift){
 // Filter Range: 
 // Given an array and min/max values, return only the array values between the min/max. Work in place with values kept in original order; don't use built-in functions
 function filterRange(arr, min, max){
-    var origLen = arr.length;                 // array may grow, so need original length
-    for (var i=0; i<origLen; i+=1){           // loop through looking for indexes between the min/max
-        if (arr[i] > min && arr[i] < max){
-            arr[arr.length] = arr[i];         // qualifying values are appended to the end, and...
+    var origLen = arr.length;                 // need original length for popping below
+    var count = 0;                            // track number of qualifying values
+    for (var i=0; i<arr.length; i+=1){
+        if (arr[i] > min && arr[i] < max){    // loop through array to get qualifying values
+            arr[count] = arr[i];              // place them at front of array
+            count +=1;
         }
+    }    
+    if (count == origLen){                    // if all values qualify, then done
+        return arr;
     }
-    for (var j=origLen; j<arr.length; j+=1){    // loop through the qualifying values at end of array
-        arr[j-origLen] = arr[j];                // duplicate those values at far left of array
-    }
-    for (var k=0; k<origLen; k+=1){             // pop all original array values -- those on far left will be preserved
+    for (var j=0; j<origLen-count; j+=1){     // pop number of times origLen - count
         arr.pop();
-    }
+    }    
     return arr;
 }
-// console.log(JSON.stringify(filterRange([10,20,-30,40,50], 10, 45)));
-// console.log(JSON.stringify(filterRange([10], 10, 45)));
-// console.log(JSON.stringify(filterRange([], -1, 1)));
-// console.log(JSON.stringify(filterRange([10,20,-30,40,50], 1, 10)));
-// console.log(JSON.stringify(filterRange([10,20,-30,40,50], 0, 11)));
-// console.log(JSON.stringify(filterRange([110,120,-130,140,150], 100, 145)));
+console.log(JSON.stringify(filterRange([10,20,-30,40,50], 10, 45)));
+console.log(JSON.stringify(filterRange([10], 10, 45)));
+console.log(JSON.stringify(filterRange([], -1, 1)));
+console.log(JSON.stringify(filterRange([10,20,-30,40,50], -Infinity, Infinity)));
+console.log(JSON.stringify(filterRange([10,20,-30,40,50], 0, 11)));
+console.log(JSON.stringify(filterRange([110,120,-130,140,150], 100, 145)));
 
 
 // Concat: 
@@ -79,8 +81,8 @@ function concat(arrOne, arrTwo){
     }
     return newArr;
 }
-console.log(JSON.stringify(concat(['a', 'b'], [1,2])));
-console.log(JSON.stringify(concat([], [1,2])));
-console.log(JSON.stringify(concat(['a', 'b'], [true, "bill the cat"])));
-console.log(JSON.stringify(concat(['a', 'b'], ["c", "d", "efg"])));
-console.log(JSON.stringify(concat([], [])));
+// console.log(JSON.stringify(concat(['a', 'b'], [1,2])));
+// console.log(JSON.stringify(concat([], [1,2])));
+// console.log(JSON.stringify(concat(['a', 'b'], [true, "bill the cat"])));
+// console.log(JSON.stringify(concat(['a', 'b'], ["c", "d", "efg"])));
+// console.log(JSON.stringify(concat([], [])));
